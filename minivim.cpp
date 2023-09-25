@@ -1,6 +1,7 @@
 #include "minivim.hpp"
 
-Minivim::Minivim()
+Minivim::Minivim(const std::string& filename) :
+    m_filename(filename)
 {
     initscr();
     noecho();
@@ -16,6 +17,6 @@ Minivim::~Minivim()
 
 void Minivim::run()
 {
-    printw("Funcionado!");
+    printw("%s", m_filename.c_str());
     getch();
 }

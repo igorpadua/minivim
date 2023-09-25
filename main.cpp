@@ -1,8 +1,16 @@
 #include "minivim.hpp"
 
-int main()
+int main(int argc, char** argv)
 {
-    auto minivim = std::make_shared<Minivim>();
+    std::shared_ptr<Minivim> minivim;
+
+    if (argc > 1) {
+        minivim = std::make_shared<Minivim>(argv[1]);
+    } else {
+        minivim = std::make_shared<Minivim>();
+    }
+
     minivim->run();
+
     return 0;
 }
