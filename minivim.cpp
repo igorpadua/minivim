@@ -3,8 +3,7 @@
 Minivim::Minivim(const std::string& filename) :
     m_filename(filename)
   , m_buffer()
-  , m_cursorX(0)
-  , m_cursorY(0)
+  , m_cursorX(0) , m_cursorY(0)
   , m_mode('n')
   , m_status("NORMAL")
 {
@@ -23,15 +22,6 @@ Minivim::~Minivim()
 void Minivim::run()
 {
 
-//    while (getmaxyx(stdscr, LINES, COLS)) {
-//        auto ch = getch();
-//        auto str = std::to_string(ch);
-//        m_buffer.push_back(str);
-
-//        for (int i = 0; i < m_buffer.size(); ++i) {
-//            mvprintw(0, i, m_buffer[i].c_str());
-//        }
-    //    }
 }
 
 void Minivim::update()
@@ -53,5 +43,7 @@ void Minivim::update()
 
 void Minivim::statusLine()
 {
-
+    attron(A_REVERSE);
+    mvprintw(LINES - 1, 0, m_status.c_str());
+    attroff(A_REVERSE);
 }
