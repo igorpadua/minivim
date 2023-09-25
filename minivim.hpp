@@ -15,6 +15,7 @@ public:
 protected:
     void update();
     void statusLine();
+    void input(int ch);
 
 private:
     std::string m_filename, m_status;
