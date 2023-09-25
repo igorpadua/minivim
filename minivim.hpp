@@ -1,11 +1,13 @@
 #pragma once
 
-#include <ncurses.h>
 #include <memory>
+#include <ncurses/ncurses.h>
 
 class Minivim
 {
 public:
     Minivim();
+    ~Minivim();
+    void run();
 };
 
