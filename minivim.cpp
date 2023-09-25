@@ -3,7 +3,8 @@
 Minivim::Minivim(const std::string& filename) :
     m_filename(filename)
   , m_buffer()
-  , m_cursorX(0) , m_cursorY(0)
+  , m_cursorX(0)
+  , m_cursorY(0)
   , m_mode('n')
   , m_status("NORMAL")
 {
