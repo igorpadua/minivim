@@ -1,6 +1,6 @@
 #include "minivim.hpp"
 
-minivim::minivim()
+Minivim::Minivim()
 {
 
 }
