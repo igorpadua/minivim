@@ -81,7 +81,6 @@ void Minivim::input(int ch)
             m_buffer.push_back(str);
         }
     }
-
     for (int i = 0; i < m_buffer.size(); ++i) {
         mvprintw(0, i, "%s", m_buffer[i].c_str());
     }
