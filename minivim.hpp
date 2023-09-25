@@ -14,12 +14,18 @@ public:
 
 protected:
     void update();
-    void statusLine();
-    void input(int ch);
+    void statusLine() const;
+    void input(const int &ch);
+    void print() const;
 
 private:
     std::string m_filename, m_status;
     std::vector<std::string> m_buffer;
     int m_cursorX, m_cursorY;
     char m_mode;
+
+    void remove(const int &ch);
+    std::string tabs(std::string &str);
+    void insert(std::string str, const int &ch);
+    void append(std::string &str);
 };

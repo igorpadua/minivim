@@ -1,8 +1,9 @@
 #include "minivim.hpp"
+#include <iostream>
 
 Minivim::Minivim(const std::string& filename) :
     m_filename(filename)
-  , m_buffer()
+  , m_buffer(1, "")
   , m_cursorX(0)
   , m_cursorY(0)
   , m_mode('n')
@@ -25,6 +26,7 @@ void Minivim::run()
     while (m_mode != 'q') {
         update();
         statusLine();
+        print();
         auto c = getch();
         input(c);
     }
@@ -47,14 +49,14 @@ void Minivim::update()
     }
 }
 
-void Minivim::statusLine()
+void Minivim::statusLine() const
 {
     attron(A_REVERSE);
     mvprintw(LINES - 1, 0, "%s", m_status.c_str());
     attroff(A_REVERSE);
 }
 
-void Minivim::input(int ch)
+void Minivim::input(const int& ch)
 {
     switch (m_mode) {
     case 27:
@@ -71,18 +73,44 @@ void Minivim::input(int ch)
             m_mode = 'w';
             break;
         }
-        return;
     case 'i':
         switch (ch) {
         case 27:
             m_mode = 'n';
             break;
         default:
-            auto str = std::string(1, ch);
-            m_buffer.push_back(str);
+            m_buffer[m_cursorY].insert(m_cursorX, 1, ch);
+            ++m_cursorX;
         }
     }
-    for (int i = 0; i < m_buffer.size(); ++i) {
-        mvprintw(0, i, "%s", m_buffer[i].c_str());
-    }
 }
+
+void Minivim::print() const
+{
+    for (int i = 0; i < LINES - 1; ++i) {
+        i >= m_buffer.size() ? move(i, 0) : mvprintw(i, 0, "%s", m_buffer[i].c_str());
+        clrtoeol();
+    }
+    move(m_cursorY, m_cursorX);
+}
+
+void Minivim::remove(const int &ch)
+{
+
+}
+
+std::string Minivim::tabs(std::string &str)
+{
+
+}
+
+void Minivim::insert(std::string str, const int &ch)
+{
+
+}
+
+void Minivim::append(std::string &str)
+{
+
+}
+
