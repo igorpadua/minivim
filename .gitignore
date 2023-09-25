@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Paste
+build-*
+
+# CMake
+CMakeLists.txt.user
