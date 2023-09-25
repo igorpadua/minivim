@@ -78,6 +78,16 @@ void Minivim::input(const int& ch)
         case 27:
             m_mode = 'n';
             break;
+        case KEY_BACKSPACE:
+            if (m_cursorX == 0 && m_cursorY > 0) {
+                m_cursorX = m_buffer[m_cursorY - 1].length();
+                m_buffer[m_cursorY - 1] += m_buffer[m_cursorY];
+                remove(m_cursorY);
+            } else if (m_cursorX > 0) {
+                m_buffer[m_cursorY].erase(m_cursorX, 1);
+                --m_cursorX;
+            }
+            break;
         default:
             m_buffer[m_cursorY].insert(m_cursorX, 1, ch);
             ++m_cursorX;
@@ -96,21 +106,24 @@ void Minivim::print() const
 
 void Minivim::remove(const int &ch)
 {
-
+    m_buffer.erase(m_buffer.begin() + ch);
 }
 
 std::string Minivim::tabs(std::string &str)
 {
-
+    auto tab = str.find('\t');
+    return tab == str.npos ? str : tabs(str.replace(tab, 1, "  "));
 }
 
 void Minivim::insert(std::string str, const int &ch)
 {
-
+    str = tabs(str);
+    m_buffer.insert(m_buffer.begin() + ch, str);
 }
 
 void Minivim::append(std::string &str)
 {
-
+    str = tabs(str);
+    m_buffer.push_back(str);
 }
 
