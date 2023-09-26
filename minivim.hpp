@@ -40,4 +40,5 @@ private:
     void append(std::string &str);
 
     void normalMode(const int &ch);
+    void insertMode(const int &ch);
 };

@@ -98,52 +98,7 @@ void Minivim::input(const int& ch)
         normalMode(ch);
         break;
     case 'i':
-        switch (ch) {
-        case 27:
-            m_mode = 'n';
-            break;
-        case KEY_BACKSPACE:
-            if (m_cursorX == 0 && m_cursorY > 0) {
-                m_cursorX = m_buffer[m_cursorY - 1].length();
-                m_buffer[m_cursorY - 1] += m_buffer[m_cursorY];
-                remove(m_cursorY);
-                up();
-            } else if (m_cursorX > 0) {
-                m_buffer[m_cursorY].erase(m_cursorX, 1);
-                --m_cursorX;
-            }
-            break;
-        case KEY_DC:
-            if (m_cursorX == m_buffer[m_cursorY].length() && m_cursorY != m_buffer.size() - 1) {
-                m_buffer[m_cursorY] += m_buffer[m_cursorY + 1];
-            } else {
-                m_buffer[m_cursorY].erase(m_cursorX, 1);
-            }
-            break;
-        case 10:
-        case KEY_ENTER:
-            if (m_cursorX < m_buffer[m_cursorY].length()) {
-                insert(m_buffer[m_cursorY].substr(m_cursorX, m_buffer[m_cursorY].length() - m_cursorX), m_cursorY + 1);
-                m_buffer[m_cursorY].erase(m_cursorX, m_buffer[m_cursorY].length() - m_cursorX);
-            } else {
-                insert("", m_cursorY + 1);
-                m_cursorX = 0;
-                down();
-            }
-            break;
-        case KEY_BTAB:
-        case KEY_CTAB:
-        case KEY_STAB:
-        case KEY_CATAB:
-        case 9:
-            m_buffer[m_cursorY].insert(m_cursorX, 2, ' ');
-            m_cursorX += 2;
-            break;
-
-        default:
-            m_buffer[m_cursorY].insert(m_cursorX, 1, ch);
-            ++m_cursorX;
-        }
+        insertMode(ch);
     }
 }
 
@@ -270,6 +225,56 @@ void Minivim::normalMode(const int &ch)
         save();
         exit(0);
         break;
+    }
+}
+
+void Minivim::insertMode(const int &ch)
+{
+    switch (ch) {
+    case 27:
+        m_mode = 'n';
+        break;
+    case KEY_BACKSPACE:
+        if (m_cursorX == 0 && m_cursorY > 0) {
+            m_cursorX = m_buffer[m_cursorY - 1].length();
+            m_buffer[m_cursorY - 1] += m_buffer[m_cursorY];
+            remove(m_cursorY);
+            up();
+        } else if (m_cursorX > 0) {
+            m_buffer[m_cursorY].erase(m_cursorX, 1);
+            --m_cursorX;
+        }
+        break;
+    case KEY_DC:
+        if (m_cursorX == m_buffer[m_cursorY].length() && m_cursorY != m_buffer.size() - 1) {
+            m_buffer[m_cursorY] += m_buffer[m_cursorY + 1];
+        } else {
+            m_buffer[m_cursorY].erase(m_cursorX, 1);
+        }
+        break;
+    case 10:
+    case KEY_ENTER:
+        if (m_cursorX < m_buffer[m_cursorY].length()) {
+            insert(m_buffer[m_cursorY].substr(m_cursorX, m_buffer[m_cursorY].length() - m_cursorX), m_cursorY + 1);
+            m_buffer[m_cursorY].erase(m_cursorX, m_buffer[m_cursorY].length() - m_cursorX);
+        } else {
+            insert("", m_cursorY + 1);
+            m_cursorX = 0;
+            down();
+        }
+        break;
+    case KEY_BTAB:
+    case KEY_CTAB:
+    case KEY_STAB:
+    case KEY_CATAB:
+    case 9:
+        m_buffer[m_cursorY].insert(m_cursorX, 2, ' ');
+        m_cursorX += 2;
+        break;
+
+    default:
+        m_buffer[m_cursorY].insert(m_cursorX, 1, ch);
+        ++m_cursorX;
     }
 }
 
