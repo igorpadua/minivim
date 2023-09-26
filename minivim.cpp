@@ -95,7 +95,7 @@ void Minivim::input(const int& ch)
     case 27:
     case 'n':
         switch (ch) {
-        case 'n':
+        case 'q':
             m_mode = 'q';
             break;
         case 'i':
@@ -103,6 +103,8 @@ void Minivim::input(const int& ch)
             break;
         case 'w':
             m_mode = 'w';
+            save();
+            exit(0);
             break;
         }
         break;
@@ -223,6 +225,22 @@ void Minivim::open()
     } else {
         std::string str{};
         append(str);
+    }
+}
+
+void Minivim::save()
+{
+    std::ofstream ofile(m_filename);
+
+    if (ofile.is_open()) {
+        for (int i = 0; i < m_buffer.size(); ++i) {
+            ofile << m_buffer[i] << '\n';
+        }
+        ofile.close();
+    } else {
+        refresh();
+        endwin();
+        throw std::runtime_error("Cannot save file. Permission denied.");
     }
 }
 
