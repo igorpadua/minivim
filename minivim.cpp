@@ -103,6 +103,13 @@ void Minivim::input(const int& ch)
                 --m_cursorX;
             }
             break;
+        case KEY_DC:
+            if (m_cursorX == m_buffer[m_cursorY].length() && m_cursorY != m_buffer.size() - 1) {
+                m_buffer[m_cursorY] += m_buffer[m_cursorY + 1];
+            } else {
+                m_buffer[m_cursorY].erase(m_cursorX, 1);
+            }
+            break;
         default:
             m_buffer[m_cursorY].insert(m_cursorX, 1, ch);
             ++m_cursorX;
