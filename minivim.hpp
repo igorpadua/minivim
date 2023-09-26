@@ -18,6 +18,11 @@ protected:
     void input(const int &ch);
     void print() const;
 
+    void up();
+    void left();
+    void right();
+    void down();
+
 private:
     std::string m_filename, m_status;
     std::vector<std::string> m_buffer;

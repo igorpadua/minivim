@@ -58,6 +58,21 @@ void Minivim::statusLine() const
 
 void Minivim::input(const int& ch)
 {
+    switch (ch) {
+    case KEY_UP:
+        up();
+        return;
+    case KEY_LEFT:
+        left();
+        return;
+    case KEY_RIGHT:
+        right();
+        return;
+    case KEY_DOWN:
+        down();
+        return;
+    }
+
     switch (m_mode) {
     case 27:
     case 'n':
@@ -101,6 +116,48 @@ void Minivim::print() const
         i >= m_buffer.size() ? move(i, 0) : mvprintw(i, 0, "%s", m_buffer[i].c_str());
         clrtoeol();
     }
+    move(m_cursorY, m_cursorX);
+}
+
+void Minivim::up()
+{
+    if (m_cursorY > 0) {
+        --m_cursorY;
+    }
+
+    if (m_cursorX >= m_buffer[m_cursorY].length()) {
+        m_cursorX = m_buffer[m_cursorY].length();
+    }
+
+    move(m_cursorY, m_cursorX);
+}
+
+void Minivim::left()
+{
+    if (m_cursorX > 0) {
+        --m_cursorX;
+        move(m_cursorY, m_cursorX);
+    }
+}
+
+void Minivim::right()
+{
+    if (m_cursorX <= COLS && m_cursorX <= m_buffer[m_cursorY].length() - 1) {
+        ++m_cursorX;
+        move(m_cursorY, m_cursorX);
+    }
+}
+
+void Minivim::down()
+{
+    if (m_cursorY < LINES && m_cursorY < m_buffer.size() - 1) {
+        ++m_cursorY;
+    }
+
+    if (m_cursorX >= m_buffer[m_cursorY].length()) {
+        m_cursorX = m_buffer[m_cursorY].length();
+    }
+
     move(m_cursorY, m_cursorX);
 }
 
