@@ -3,13 +3,13 @@
 
 Minivim::Minivim(const std::string& filename) :
     m_filename(filename)
-  , m_buffer(1, "")
   , m_cursorX(0)
   , m_cursorY(0)
   , m_mode('n')
   , m_status("NORMAL")
   , m_section()
 {
+    open();
     initscr();
     noecho();
     cbreak();
@@ -205,6 +205,25 @@ void Minivim::down()
     }
 
     move(m_cursorY, m_cursorX);
+}
+
+void Minivim::open()
+{
+    if (std::filesystem::exists(m_filename)) {
+        std::ifstream ifile(m_filename);
+        if (ifile.is_open()) {
+            while (!ifile.eof()) {
+                std::string buffer;
+                std::getline(ifile, buffer);
+                append(buffer);
+            }
+        } else {
+            throw std::runtime_error("Cannot open file. Permission denied.");
+        }
+    } else {
+        std::string str{};
+        append(str);
+    }
 }
 
 void Minivim::remove(const int &ch)

@@ -4,6 +4,8 @@
 #include <ncurses.h>
 #include <string>
 #include <vector>
+#include <filesystem>
+#include <fstream>
 
 class Minivim
 {
@@ -22,6 +24,9 @@ protected:
     void left();
     void right();
     void down();
+
+    void open();
+    void save();
 
 private:
     std::string m_filename, m_status, m_section;
