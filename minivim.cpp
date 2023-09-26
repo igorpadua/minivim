@@ -172,7 +172,7 @@ void Minivim::open()
     }
 }
 
-void Minivim::save()
+void Minivim::save() const
 {
     std::ofstream ofile(m_filename);
 

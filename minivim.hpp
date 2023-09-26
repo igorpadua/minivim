@@ -26,7 +26,7 @@ protected:
     void down();
 
     void open();
-    void save();
+    void save() const;
 
 private:
     std::string m_filename, m_status, m_section;
