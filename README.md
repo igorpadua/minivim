@@ -19,7 +19,11 @@ Este programa é um vimLike feito com C++, tendo como base o canal TerminalRoot.
 ## Executar
 
 > mkdir build
+> 
 > cd build
+> 
 > cmake ..
+> 
 > make
+> 
 > ./minivim
