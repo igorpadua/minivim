@@ -98,6 +98,7 @@ void Minivim::input(const int& ch)
                 m_cursorX = m_buffer[m_cursorY - 1].length();
                 m_buffer[m_cursorY - 1] += m_buffer[m_cursorY];
                 remove(m_cursorY);
+                up();
             } else if (m_cursorX > 0) {
                 m_buffer[m_cursorY].erase(m_cursorX, 1);
                 --m_cursorX;
