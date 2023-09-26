@@ -1,6 +1,6 @@
 # Minivim
 
-Este programa é um vimLike feito com C++, tendo como base o canal TerminalRoot.
+Este programa é um vimLike feito com C++, tendo como base o canal TerminalRoot para criar este programa.
 
 ## Funcionalidades
 
