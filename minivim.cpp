@@ -8,6 +8,7 @@ Minivim::Minivim(const std::string& filename) :
   , m_cursorY(0)
   , m_mode('n')
   , m_status("NORMAL")
+  , m_section()
 {
     initscr();
     noecho();
@@ -88,6 +89,7 @@ void Minivim::input(const int& ch)
             m_mode = 'w';
             break;
         }
+        break;
     case 'i':
         switch (ch) {
         case 27:
@@ -111,6 +113,26 @@ void Minivim::input(const int& ch)
                 m_buffer[m_cursorY].erase(m_cursorX, 1);
             }
             break;
+        case 10:
+        case KEY_ENTER:
+            if (m_cursorX < m_buffer[m_cursorY].length()) {
+                insert(m_buffer[m_cursorY].substr(m_cursorX, m_buffer[m_cursorY].length() - m_cursorX), m_cursorY + 1);
+                m_buffer[m_cursorY].erase(m_cursorX, m_buffer[m_cursorY].length() - m_cursorX);
+            } else {
+                insert("", m_cursorY + 1);
+                m_cursorX = 0;
+                down();
+            }
+            break;
+        case KEY_BTAB:
+        case KEY_CTAB:
+        case KEY_STAB:
+        case KEY_CATAB:
+        case 9:
+            m_buffer[m_cursorY].insert(m_cursorX, 2, ' ');
+            m_cursorX += 2;
+            break;
+
         default:
             m_buffer[m_cursorY].insert(m_cursorX, 1, ch);
             ++m_cursorX;

@@ -24,7 +24,7 @@ protected:
     void down();
 
 private:
-    std::string m_filename, m_status;
+    std::string m_filename, m_status, m_section;
     std::vector<std::string> m_buffer;
     int m_cursorX, m_cursorY;
     char m_mode;
