@@ -15,7 +15,7 @@ public:
     void run();
 
 protected:
-    void update();
+    void updateStatus();
     void statusLine() const;
     void input(const int &ch);
     void print() const;
@@ -38,4 +38,6 @@ private:
     std::string tabs(std::string &str);
     void insert(std::string str, const int &ch);
     void append(std::string &str);
+
+    void normalMode(const int &ch);
 };

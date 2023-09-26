@@ -26,7 +26,7 @@ Minivim::~Minivim()
 void Minivim::run()
 {
     while (m_mode != 'q') {
-        update();
+        updateStatus();
         statusLine();
         print();
         auto c = getch();
@@ -34,7 +34,7 @@ void Minivim::run()
     }
 }
 
-void Minivim::update()
+void Minivim::updateStatus()
 {
     switch (m_mode) {
     case 'n':
@@ -44,6 +44,7 @@ void Minivim::update()
         m_status = "INSERT";
         break;
     case 'q':
+        exit(0);
         break;
     }
 
@@ -94,19 +95,7 @@ void Minivim::input(const int& ch)
     switch (m_mode) {
     case 27:
     case 'n':
-        switch (ch) {
-        case 'q':
-            m_mode = 'q';
-            break;
-        case 'i':
-            m_mode = 'i';
-            break;
-        case 'w':
-            m_mode = 'w';
-            save();
-            exit(0);
-            break;
-        }
+        normalMode(ch);
         break;
     case 'i':
         switch (ch) {
@@ -265,5 +254,22 @@ void Minivim::append(std::string &str)
 {
     str = tabs(str);
     m_buffer.push_back(str);
+}
+
+void Minivim::normalMode(const int &ch)
+{
+    switch (ch) {
+    case 'q':
+        m_mode = 'q';
+        break;
+    case 'i':
+        m_mode = 'i';
+        break;
+    case 'w':
+        m_mode = 'w';
+        save();
+        exit(0);
+        break;
+    }
 }
 
