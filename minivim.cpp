@@ -14,6 +14,7 @@ Minivim::Minivim(const std::string& filename) :
     noecho();
     cbreak();
     keypad(stdscr, TRUE);
+    use_default_colors();
 }
 
 Minivim::~Minivim()
@@ -36,7 +37,6 @@ void Minivim::run()
 void Minivim::update()
 {
     switch (m_mode) {
-    case 27:
     case 'n':
         m_status = "NORMAL";
         break;
@@ -45,15 +45,32 @@ void Minivim::update()
         break;
     case 'q':
         break;
-    default:
-        break;
     }
+
+    m_section = " COLS: " + std::to_string(m_cursorX) + "| ROWS: " + std::to_string(m_cursorY) + " | FILE: " + m_filename;
+    m_status.insert(0, " ");
 }
 
 void Minivim::statusLine() const
 {
+    start_color();
+
+    if (m_mode == 'n') {
+        init_pair(1, COLOR_MAGENTA, COLOR_BLACK);
+    } else {
+        init_pair(1, COLOR_GREEN, COLOR_BLACK);
+    }
+
     attron(A_REVERSE);
+    attron(A_BOLD);
+    attron(COLOR_PAIR(1));
+    for (int i = 0; i < COLS; ++i) {
+        mvprintw(LINES - 1, i, " ");
+    }
     mvprintw(LINES - 1, 0, "%s", m_status.c_str());
+    mvprintw(LINES - 1, COLS - m_section.length(), "%s", m_section.c_str());
+    attroff(COLOR_PAIR(1));
+    attroff(A_BOLD);
     attroff(A_REVERSE);
 }
 
@@ -78,7 +95,6 @@ void Minivim::input(const int& ch)
     case 27:
     case 'n':
         switch (ch) {
-        case 27:
         case 'n':
             m_mode = 'q';
             break;
